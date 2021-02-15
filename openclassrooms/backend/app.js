@@ -1,14 +1,28 @@
 const { request, response } = require('express');
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
 
+// Headers configuration
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
-  });
+});
+
+// Global middleware
+app.use(bodyParser.json());
+
+
+// Post request
+app.post('/api/stuff', (request, response, next) => {
+    console.log(request.body)
+    response.status(201).json({
+        message: "Objet créé."
+    })
+})
 
 app.use('/api/stuff', (req, res, next) => {
     const stuff = [
